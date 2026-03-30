@@ -1,6 +1,6 @@
 ﻿namespace FCA.Domain.Entities;
 
-public abstract class Entity
+internal abstract class Entity
 {
     public required Guid Id { get; init; } = Guid.NewGuid();
 }

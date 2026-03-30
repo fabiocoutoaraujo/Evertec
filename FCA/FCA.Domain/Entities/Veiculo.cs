@@ -2,7 +2,7 @@
 
 namespace FCA.Domain.Entities;
 
-public sealed class Veiculo : Entity
+internal sealed class Veiculo : Entity
 {
     public required string Placa { get; init; }
 
@@ -29,11 +29,17 @@ public sealed class Veiculo : Entity
         DomainExceptionValidation.When(string.IsNullOrWhiteSpace(placa),
                                        Constants.VEICULO_PLACA_OBRIGATORIO);
 
+        DomainExceptionValidation.When(DomainPlacaValidation.Validar(placa),
+                                       Constants.VEICULO_PLACA_INVALIDA);
+
         DomainExceptionValidation.When(string.IsNullOrWhiteSpace(modelo),
                                        Constants.VEICULO_MODELO_OBRIGATORIO);
 
         DomainExceptionValidation.When(ano == ushort.MinValue || ano == ushort.MaxValue,
                                        Constants.VEICULO_ANO_OBRIGATORIO);
+
+        DomainExceptionValidation.When(ano < 1980,
+                                       Constants.VEICULO_ANO_INVALIDO);
 
         DomainExceptionValidation.When(proprietarioId == Guid.Empty,
                                        Constants.VEICULO_PROPRIETARIO_OBRIGATORIO);

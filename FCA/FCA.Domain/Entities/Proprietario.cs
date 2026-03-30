@@ -2,7 +2,7 @@
 
 namespace FCA.Domain.Entities;
 
-public sealed class Proprietario : Entity
+internal sealed class Proprietario : Entity
 {
     public required string Nome { get; init; }
 
@@ -23,9 +23,16 @@ public sealed class Proprietario : Entity
     {
         DomainExceptionValidation.When(string.IsNullOrWhiteSpace(nome),
                                        Constants.PROPRIETARIO_NOME_OBRIGATORIO);
+        
+        int nomeLength = nome.Length;
+        DomainExceptionValidation.When(nomeLength < 3 || nomeLength > 100,
+                                       Constants.PROPRIETARIO_NOME_TAMANHO_INVALIDO);
 
         DomainExceptionValidation.When(string.IsNullOrWhiteSpace(cpf),
                                        Constants.PROPRIETARIO_CPF_OBRIGATORIO);
+
+        DomainExceptionValidation.When(DomainCPFValidation.Validar(cpf),
+                                       Constants.PROPRIETARIO_CPF_INVALIDO);
 
         DomainExceptionValidation.When(dataNascimento == DateOnly.MinValue || dataNascimento == DateOnly.MaxValue,
                                        Constants.PROPRIETARIO_NASCIMENTO_OBRIGATORIO);
