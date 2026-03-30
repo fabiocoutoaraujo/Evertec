@@ -1,6 +1,6 @@
 ﻿namespace FCA.Domain;
 
-internal static class Constants
+public static class Constants
 {
     public const string PROPRIETARIO_NOME_OBRIGATORIO = "O nome do proprietário é obrigatório!";
     
