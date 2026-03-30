@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FCA.Application\FCA.Application.csproj" />
+    <ProjectReference Include="..\FCA.Domain\FCA.Domain.csproj" />
+    <ProjectReference Include="..\FCA.Infrastructure\FCA.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
