@@ -1,0 +1,12 @@
+﻿using System.Linq.Expressions;
+
+namespace FCA.Domain.Interfaces;
+
+public interface IRepository<T> where T : class
+{
+    Task<IQueryable<T>> GetAllAsync();
+    Task<T?> GetAsync(Expression<Func<T, bool>> predicate);
+    T Create(T entity);
+    T Update(T entity);
+    T Delete(T entity);
+}

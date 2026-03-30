@@ -2,7 +2,7 @@
 
 namespace FCA.Domain.Entities;
 
-internal sealed class Veiculo : Entity
+public sealed class Veiculo : Entity
 {
     public required string Placa { get; init; }
 

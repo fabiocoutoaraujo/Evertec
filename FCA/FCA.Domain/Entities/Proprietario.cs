@@ -2,7 +2,7 @@
 
 namespace FCA.Domain.Entities;
 
-internal sealed class Proprietario : Entity
+public sealed class Proprietario : Entity
 {
     public required string Nome { get; init; }
 
