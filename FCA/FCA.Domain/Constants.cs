@@ -1,4 +1,5 @@
-﻿namespace FCA.Domain;
+﻿
+namespace FCA.Domain;
 
 public static class Constants
 {
@@ -23,4 +24,6 @@ public static class Constants
     public const string VEICULO_ANO_INVALIDO = "O ano do veículo é inválido!";
 
     public const string VEICULO_PLACA_INVALIDA = "O formato da placa do veículo é inválida! Formato válido: ABC-123";
+
+    public const string VEICULO_PLACA_EXPRESSAO_REGULAR = @"^[A-Z]{3}-\d{4}$";
 }
