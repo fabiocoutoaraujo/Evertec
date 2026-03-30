@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="FCA.API/FCA.API.csproj" Id="43c95918-9921-4f4e-ad5b-db04e1cd8082" />
+  <Project Path="FCA.Application/FCA.Application.csproj" Id="7556ae58-7550-4622-8cab-86df580d4ae3" />
+  <Project Path="FCA.CrossCutting/FCA.CrossCutting.csproj" Id="5065e5d1-55bc-4ab6-b6de-d4d168ceaa38" />
+  <Project Path="FCA.Domain/FCA.Domain.csproj" Id="b4221d41-8f5f-409c-92bf-2afe6b26d3dc" />
+  <Project Path="FCA.Infrastructure/FCA.Infrastructure.csproj" Id="42083158-9f0b-46e1-ac73-5e6e0d2c041c" />
+</Solution>
