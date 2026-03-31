@@ -22,4 +22,9 @@
     <ProjectReference Include="..\FCA.Domain\FCA.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EntitiesConfiguration\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 </Project>
