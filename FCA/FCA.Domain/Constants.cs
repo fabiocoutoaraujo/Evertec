@@ -17,13 +17,17 @@ public static class Constants
 
     public const string VEICULO_MODELO_OBRIGATORIO = "O modelo do veículo é obrigatório";
 
+    public const string VEICULO_MODELO_TAMANHO_INVALIDO = "O modelo do veículo deve conter entre 1 e 100 caracteres!";
+
     public const string VEICULO_ANO_OBRIGATORIO = "O ano do veículo é obrigatório!";
     
     public const string VEICULO_PROPRIETARIO_OBRIGATORIO = "O identificador do proprietário do veículo é obrigatório!";
 
     public const string VEICULO_ANO_INVALIDO = "O ano do veículo é inválido!";
 
-    public const string VEICULO_PLACA_INVALIDA = "O formato da placa do veículo é inválida! Formato válido: ABC-123";
+    public const string VEICULO_PLACA_TAMANHO_INVALIDO = "A placa do veículo deve conter entre 8 caracteres! Formato válido: ABC-1234";
+
+    public const string VEICULO_PLACA_INVALIDA = "O formato da placa do veículo é inválida! Formato válido: ABC-1234";
 
     public const string VEICULO_PLACA_EXPRESSAO_REGULAR = @"^[A-Z]{3}-\d{4}$";
 }

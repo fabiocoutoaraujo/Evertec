@@ -10,6 +10,8 @@ public sealed class Proprietario : Entity
 
     public required DateOnly DataNascimento { get; init; }
 
+    public ICollection<Veiculo>? Veiculos { get; set; }
+
     public Proprietario(string nome, string cpf, DateOnly dataNascimento)
     {
         ValidateDomain(nome, cpf, dataNascimento);

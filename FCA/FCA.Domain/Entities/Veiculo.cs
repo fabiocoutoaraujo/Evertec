@@ -29,11 +29,17 @@ public sealed class Veiculo : Entity
         DomainExceptionValidation.When(string.IsNullOrWhiteSpace(placa),
                                        Constants.VEICULO_PLACA_OBRIGATORIO);
 
+        DomainExceptionValidation.When(placa.Length != 8,
+                                       Constants.VEICULO_PLACA_TAMANHO_INVALIDO);
+        
         DomainExceptionValidation.When(DomainPlacaValidation.Validar(placa),
                                        Constants.VEICULO_PLACA_INVALIDA);
 
         DomainExceptionValidation.When(string.IsNullOrWhiteSpace(modelo),
                                        Constants.VEICULO_MODELO_OBRIGATORIO);
+
+        DomainExceptionValidation.When(placa.Length > 100,
+                                       Constants.VEICULO_MODELO_TAMANHO_INVALIDO);
 
         DomainExceptionValidation.When(ano == ushort.MinValue || ano == ushort.MaxValue,
                                        Constants.VEICULO_ANO_OBRIGATORIO);
