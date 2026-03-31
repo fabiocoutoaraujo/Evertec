@@ -1,32 +1,55 @@
-﻿using FCA.Application.DTOs;
+﻿using AutoMapper;
+using FCA.Application.DTOs;
 using FCA.Application.Interfaces;
+using FCA.Domain.Entities;
+using FCA.Domain.Interfaces;
 
 namespace FCA.Application.Services;
 
-public class VeiculoService : IVeiculoService
+public class VeiculoService(IUnitOfWork _unitOfWork,
+                            IMapper _mapper) : IVeiculoService
 {
-    public Task<VeiculoDTO> CreateAsync(VeiculoDTO veiculoDTO)
+    public async Task<IEnumerable<VeiculoDTO>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        var veiculos = await _unitOfWork.ProprietarioRepository.GetAllAsync();
+
+        return _mapper.Map<IEnumerable<VeiculoDTO>>(veiculos);
     }
 
-    public Task<VeiculoDTO> DeleteAsync(VeiculoDTO veiculoDTO)
+    public async Task<VeiculoDTO> GetByIdAsync(VeiculoDTO veiculoDTO)
     {
-        throw new NotImplementedException();
+        var proprietario = await _unitOfWork.ProprietarioRepository.GetAsync(p => p.Id == veiculoDTO.Id);
+
+        return _mapper.Map<VeiculoDTO>(proprietario);
     }
 
-    public Task<IEnumerable<VeiculoDTO>> GetAllAsync()
+    public async Task<VeiculoDTO> CreateAsync(VeiculoDTO veiculoDTO)
     {
-        throw new NotImplementedException();
+        var veiculo = _mapper.Map<Proprietario>(veiculoDTO);
+
+        var novoVeiculo = _unitOfWork.ProprietarioRepository.Create(veiculo);
+        await _unitOfWork.CommitAsync();
+
+        return _mapper.Map<VeiculoDTO>(novoVeiculo);
     }
 
-    public Task<VeiculoDTO> GetByIdAsync()
+    public async Task<VeiculoDTO> UpdateAsync(VeiculoDTO veiculoDTO)
     {
-        throw new NotImplementedException();
+        var veiculo = _mapper.Map<Proprietario>(veiculoDTO);
+
+        var veiculoAtualizado = _unitOfWork.ProprietarioRepository.Update(veiculo);
+        await _unitOfWork.CommitAsync();
+
+        return _mapper.Map<VeiculoDTO>(veiculoAtualizado);
     }
 
-    public Task<VeiculoDTO> UpdateAsync(VeiculoDTO veiculoDTO)
+    public async Task<VeiculoDTO> DeleteAsync(VeiculoDTO veiculoDTO)
     {
-        throw new NotImplementedException();
+        var veiculo = _mapper.Map<Proprietario>(veiculoDTO);
+
+        var veiculoDeletado = _unitOfWork.ProprietarioRepository.Delete(veiculo);
+        await _unitOfWork.CommitAsync();
+
+        return _mapper.Map<VeiculoDTO>(veiculoDeletado);
     }
 }
