@@ -1,10 +1,11 @@
 ﻿using FCA.Domain.Entities;
 using FCA.Domain.Interfaces;
+using FCA.Infrastructure.Context;
 using System.Linq.Expressions;
 
 namespace FCA.Infrastructure.Repositories;
 
-public class VeiculoRepository : IVeiculoRepository
+public class VeiculoRepository(ApplicationDbContext _dbContext) : IVeiculoRepository
 {
     public Veiculo Create(Veiculo entity)
     {

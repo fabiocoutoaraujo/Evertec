@@ -1,10 +1,11 @@
 ﻿using FCA.Domain.Entities;
 using FCA.Domain.Interfaces;
+using FCA.Infrastructure.Context;
 using System.Linq.Expressions;
 
 namespace FCA.Infrastructure.Repositories;
 
-public class ProprietarioRepository : IProprietarioRepository
+public class ProprietarioRepository(ApplicationDbContext _dbContext) : IProprietarioRepository
 {
     public Proprietario Create(Proprietario entity)
     {
