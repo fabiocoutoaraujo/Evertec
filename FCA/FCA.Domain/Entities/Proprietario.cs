@@ -1,4 +1,5 @@
 ﻿using FCA.Domain.Validations;
+using System.Collections.ObjectModel;
 
 namespace FCA.Domain.Entities;
 
@@ -11,6 +12,9 @@ public sealed class Proprietario : Entity
     public required DateOnly DataNascimento { get; init; }
 
     public ICollection<Veiculo>? Veiculos { get; set; }
+
+    private Proprietario() => 
+        Veiculos = new Collection<Veiculo>();
 
     public Proprietario(string nome, string cpf, DateOnly dataNascimento)
     {
