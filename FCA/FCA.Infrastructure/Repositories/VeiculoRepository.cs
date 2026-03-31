@@ -1,38 +1,14 @@
 ﻿using FCA.Domain.Entities;
 using FCA.Domain.Interfaces;
 using FCA.Infrastructure.Context;
-using System.Linq.Expressions;
+using System.Collections;
 
 namespace FCA.Infrastructure.Repositories;
 
-public class VeiculoRepository(ApplicationDbContext _dbContext) : IVeiculoRepository
+public class VeiculoRepository(ApplicationDbContext _dbContext) : Repository<Veiculo>(_dbContext),
+                                                                  IVeiculoRepository
 {
-    public Veiculo Create(Veiculo entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Veiculo Delete(Veiculo entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<Veiculo>> GetAllAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IQueryable> GetAllByProprietarioAsync(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Veiculo?> GetAsync(Expression<Func<Veiculo, bool>> predicate)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Veiculo Update(Veiculo entity)
+    public Task<IEnumerable> GetAllByProprietarioAsync(Guid id)
     {
         throw new NotImplementedException();
     }

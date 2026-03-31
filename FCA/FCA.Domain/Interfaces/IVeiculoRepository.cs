@@ -1,8 +1,9 @@
 ﻿using FCA.Domain.Entities;
+using System.Collections;
 
 namespace FCA.Domain.Interfaces;
 
 public interface IVeiculoRepository : IRepository<Veiculo>
 {
-    Task<IQueryable> GetAllByProprietarioAsync(Guid id);
+    Task<IEnumerable> GetAllByProprietarioAsync(Guid id);
 }
