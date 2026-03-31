@@ -16,9 +16,9 @@ public class ProprietarioService(IUnitOfWork _unitOfWork,
         return _mapper.Map<IEnumerable<ProprietarioDTO>>(proprietarios);
     }
 
-    public async Task<ProprietarioDTO> GetByIdAsync(ProprietarioDTO proprietarioDTO)
+    public async Task<ProprietarioDTO> GetByIdAsync(Guid id)
     {
-        var proprietario = await _unitOfWork.ProprietarioRepository.GetAsync(p => p.Id == proprietarioDTO.Id);
+        var proprietario = await _unitOfWork.ProprietarioRepository.GetAsync(p => p.Id == id);
 
         return _mapper.Map<ProprietarioDTO>(proprietario);
     }

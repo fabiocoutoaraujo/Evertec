@@ -13,8 +13,7 @@ public class ProprietarioDTO
     public string Nome { get; set; }
 
     [Required(ErrorMessage = Constants.PROPRIETARIO_CPF_OBRIGATORIO)]
-    [MinLength(11)]
-    [MaxLength(14)]
+    [Length(11, 14, ErrorMessage = Constants.PROPRIETARIO_CPF_TAMANHO_INVALIDO)]
     public string CPF { get; set; }
 
     [Required(ErrorMessage = Constants.PROPRIETARIO_NASCIMENTO_OBRIGATORIO)]

@@ -26,7 +26,7 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
     }
 
     [HttpGet]
-    [Route("{id:guid}", Name = "GetById")]
+    [Route("{id:guid}", Name = "GetVeiculoById")]
     public async Task<ActionResult<VeiculoDTO>> Get(Guid id)
     {
         var veiculoDTO = await _veiculoService.GetByIdAsync(id);
@@ -55,7 +55,7 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
 
         var novoVeicutoDTO = await _veiculoService.CreateAsync(veiculoDTO);
 
-        return new CreatedAtRouteResult(routeName: "GetById",
+        return new CreatedAtRouteResult(routeName: "GetVeiculoById",
                                         routeValues: new { id = novoVeicutoDTO.Id },
                                         value: novoVeicutoDTO);
     }

@@ -37,7 +37,7 @@ public sealed class Proprietario : Entity
         DomainExceptionValidation.When(string.IsNullOrWhiteSpace(cpf),
                                        Constants.PROPRIETARIO_CPF_OBRIGATORIO);
 
-        DomainExceptionValidation.When(DomainCPFValidation.Validar(cpf),
+        DomainExceptionValidation.When(DomainCPFValidation.Validar(cpf) == false,
                                        Constants.PROPRIETARIO_CPF_INVALIDO);
 
         DomainExceptionValidation.When(dataNascimento == DateOnly.MinValue || dataNascimento == DateOnly.MaxValue,

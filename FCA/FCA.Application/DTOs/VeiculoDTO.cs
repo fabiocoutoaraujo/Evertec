@@ -8,7 +8,7 @@ public class VeiculoDTO
     public Guid Id { get; set; }
 
     [Required(ErrorMessage = Constants.VEICULO_PLACA_OBRIGATORIO)]
-    [Length(8, 8)]
+    [Length(8, 8, ErrorMessage = Constants.VEICULO_PLACA_INVALIDA)]
     [RegularExpression(Constants.VEICULO_PLACA_EXPRESSAO_REGULAR)]
     public string Placa { get; set; }
     

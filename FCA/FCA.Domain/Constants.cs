@@ -7,6 +7,8 @@ public static class Constants
     
     public const string PROPRIETARIO_CPF_OBRIGATORIO = "O CPF do proprietário é obrigatório!";
 
+    public const string PROPRIETARIO_CPF_TAMANHO_INVALIDO = "O CPF do proprietário deve conter entre 11 e 14 caracteres!";
+
     public const string PROPRIETARIO_NASCIMENTO_OBRIGATORIO = "A data de nascimento do proprietário é obrigatória!";
 
     public const string PROPRIETARIO_NOME_TAMANHO_INVALIDO = "O nome do proprietário deve conter entre 3 e 100 caracteres!";
