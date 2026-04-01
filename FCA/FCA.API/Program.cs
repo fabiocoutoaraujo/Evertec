@@ -1,5 +1,6 @@
 using FCA.API.Filters;
 using FCA.CrossCutting.IoC;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +8,15 @@ builder.Services.AddControllers(options => { options.Filters.Add(typeof(ApiExcep
 
 builder.Services.AddInfrastructure(builder.Configuration);
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(opt => 
+{
+    opt.SwaggerDoc("v1", 
+                   new OpenApiInfo {
+                       Version = "v1",
+                       Title = "Evertec Teste Backend de FCA.",
+                       Description = "API para um CRUD completo de Proprietários e Veículos."
+                   });
+});
 
 var app = builder.Build();
 
