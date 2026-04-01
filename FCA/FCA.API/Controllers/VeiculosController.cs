@@ -16,6 +16,9 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
     /// </summary>
     /// <returns>Uma lista de objetos VeiculoDTO.</returns>
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
     public async Task<ActionResult<IEnumerable<VeiculoDTO>>> Get()
     {
         var veiculosDTO = await _veiculoService.GetAllAsync();
@@ -86,6 +89,9 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
 
     [HttpPut]
     [Route("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
     public async Task<ActionResult<VeiculoDTO>> Put(Guid id, VeiculoDTO veiculoDTO)
     {
         if (id != veiculoDTO.Id)

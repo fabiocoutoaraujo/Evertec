@@ -16,6 +16,9 @@ namespace FCA.API.Controllers
         /// </summary>
         /// <returns>Uma lista de objetos ProprietarioDTO.</returns>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<IEnumerable<ProprietarioDTO>>> Get()
         {
             var proprietariosDTO = await _proprietariosService.GetAllAsync();
@@ -85,6 +88,9 @@ namespace FCA.API.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<ProprietarioDTO>> Put(Guid id, ProprietarioDTO proprietarioDTO)
         {
             if (id != proprietarioDTO.Id)

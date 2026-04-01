@@ -9,11 +9,11 @@ public class ProprietarioDTO
 
     [Required(ErrorMessage = Constants.PROPRIETARIO_NOME_OBRIGATORIO)]
     [Length(3, 100)]
-    public string Nome { get; set; }
+    public required string Nome { get; set; }
 
     [Required(ErrorMessage = Constants.PROPRIETARIO_CPF_OBRIGATORIO)]
     [Length(11, 14, ErrorMessage = Constants.PROPRIETARIO_CPF_TAMANHO_INVALIDO)]
-    public string CPF { get; set; }
+    public required string CPF { get; set; }
 
     [Required(ErrorMessage = Constants.PROPRIETARIO_NASCIMENTO_OBRIGATORIO)]
     [DataType(DataType.Date)]

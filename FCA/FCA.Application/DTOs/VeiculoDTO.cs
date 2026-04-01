@@ -10,11 +10,11 @@ public class VeiculoDTO
     [Required(ErrorMessage = Constants.VEICULO_PLACA_OBRIGATORIO)]
     [Length(8, 8, ErrorMessage = Constants.VEICULO_PLACA_INVALIDA)]
     [RegularExpression(Constants.VEICULO_PLACA_EXPRESSAO_REGULAR)]
-    public string Placa { get; set; }
+    public required string Placa { get; set; }
     
     [Required(ErrorMessage = Constants.VEICULO_MODELO_OBRIGATORIO)]
     [MaxLength(100)]
-    public string Modelo { get; set; }
+    public required string Modelo { get; set; }
     
     [Required(ErrorMessage = Constants.VEICULO_ANO_OBRIGATORIO)]
     [Range(1980, 2999, ErrorMessage = Constants.VEICULO_ANO_INVALIDO)]
