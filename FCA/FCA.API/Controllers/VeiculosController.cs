@@ -1,6 +1,7 @@
 ﻿using FCA.Application.DTOs;
 using FCA.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace FCA.API.Controllers;
 
@@ -54,6 +55,81 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
         }
 
         return Ok(veiculoDTO);
+    }
+
+    /// <summary>
+    /// Obtém um veículo pela placa.
+    /// </summary>
+    /// <param name="veiculoFiltroPlacaDTORequest">Objeto VeiculoFiltroPlacaDTORequest com a informação da placa do veículo.</param>
+    /// <returns>Um objeto VeiculoDTO.</returns>
+    [HttpGet]
+    [Route("Placa")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult<VeiculoDTO>> Get([FromQuery] VeiculoFiltroPlacaDTORequest veiculoFiltroPlacaDTORequest)
+    {
+        var veiculoDTO = await _veiculoService.GetByPlacaAsync(veiculoFiltroPlacaDTORequest);
+
+        if (veiculoDTO == null)
+        {
+            LogCustomWarning(actionName: "GET/Veiculos/Placa",
+                                message: Constants.VEICULO_NAO_ENCONTRADO);
+
+            return NotFound(Constants.VEICULO_NAO_ENCONTRADO);
+        }
+
+        return Ok(veiculoDTO);
+    }
+
+    /// <summary>
+    /// Obtém um veículo pelo modelo.
+    /// </summary>
+    /// <param name="veiculoFiltroModeloDTORequest">Objeto VeiculoFiltroModeloDTORequest com a informação do modelo do veículo.</param>
+    /// <returns>Um objeto VeiculoDTO.</returns>
+    [HttpGet]
+    [Route("Modelo")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult<VeiculoDTO>> Get([FromQuery] VeiculoFiltroModeloDTORequest veiculoFiltroModeloDTORequest)
+    {
+        var veiculoDTO = await _veiculoService.GetByModeloAsync(veiculoFiltroModeloDTORequest);
+
+        if (veiculoDTO == null)
+        {
+            LogCustomWarning(actionName: "GET/Veiculos/Modelo",
+                                message: Constants.VEICULO_NAO_ENCONTRADO);
+
+            return NotFound(Constants.VEICULO_NAO_ENCONTRADO);
+        }
+
+        return Ok(veiculoDTO);
+    }
+
+    /// <summary>
+    /// Obtém uma lista de veículos pelo nome do proprietário.
+    /// </summary>
+    /// <param name="proprietarioFiltroNomeDTORequest">Objeto ProprietarioFiltroNomeDTORequest com o nome do proprietário.</param>
+    /// <returns>Uma lista de objetos VeiculoDTO.</returns>
+    [HttpGet]
+    [Route("NomeProprietario")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult<IEnumerable<VeiculoDTO>>> Get([FromQuery] ProprietarioFiltroNomeDTORequest proprietarioFiltroNomeDTORequest)
+    {
+        var veiculosDTO = await _veiculoService.GetByNomeProprietarioAsync(proprietarioFiltroNomeDTORequest);
+
+        if (veiculosDTO == null || veiculosDTO.Any() == false)
+        {
+            LogCustomWarning(actionName: "GET/Veiculos/NomeProprietario",
+                                message: Constants.VEICULO_NAO_ENCONTRADO);
+
+            return NotFound(Constants.VEICULO_NAO_ENCONTRADO);
+        }
+
+        return Ok(veiculosDTO);
     }
 
     /// <summary>

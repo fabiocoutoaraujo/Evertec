@@ -9,7 +9,7 @@ public sealed class Veiculo : Entity
 
     public required string Modelo { get; init; }
 
-    public required ushort Ano { get; init; }
+    public required int Ano { get; init; }
 
     #region | Relacionamento |
     public required Guid ProprietarioId { get; init; }
@@ -18,17 +18,17 @@ public sealed class Veiculo : Entity
     public Proprietario? Proprietario { get; set; }
     #endregion
 
-    public Veiculo(string placa, string modelo, ushort ano, Guid proprietarioId)
+    public Veiculo(string placa, string modelo, int ano, Guid proprietarioId)
     {
         ValidateDomain(placa, modelo, ano, proprietarioId);
-
+        
         Placa = placa;
         Modelo = modelo;
         Ano = ano;
         ProprietarioId = proprietarioId;
     }
 
-    private void ValidateDomain(string placa, string modelo, ushort ano, Guid proprietarioId)
+    private void ValidateDomain(string placa, string modelo, int ano, Guid proprietarioId)
     {
         DomainExceptionValidation.When(string.IsNullOrWhiteSpace(placa),
                                        Constants.VEICULO_PLACA_OBRIGATORIO);

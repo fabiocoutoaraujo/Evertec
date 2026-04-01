@@ -17,7 +17,7 @@ public static class Constants
 
     public const string VEICULO_PLACA_OBRIGATORIO = "A placa do veículo é obrigatória!";
 
-    public const string VEICULO_MODELO_OBRIGATORIO = "O modelo do veículo é obrigatório";
+    public const string VEICULO_MODELO_OBRIGATORIO = "O modelo do veículo é obrigatório!";
 
     public const string VEICULO_MODELO_TAMANHO_INVALIDO = "O modelo do veículo deve conter entre 1 e 100 caracteres!";
 
