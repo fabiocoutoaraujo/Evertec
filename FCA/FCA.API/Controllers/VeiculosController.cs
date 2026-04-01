@@ -6,6 +6,7 @@ namespace FCA.API.Controllers;
 
 [Route("[controller]")]
 [ApiController]
+[Produces("application/json")]
 public class VeiculosController(ILogger<VeiculosController> _logger,
                                 IVeiculoService _veiculoService) : ControllerBase
 {
