@@ -31,7 +31,7 @@ namespace FCA.Infrastructure.Migrations
                     b.Property<string>("CPF")
                         .IsRequired()
                         .HasMaxLength(14)
-                        .HasColumnType("nvarchar(14)");
+                        .HasColumnType("varchar");
 
                     b.Property<DateOnly>("DataNascimento")
                         .HasColumnType("date");
@@ -39,7 +39,7 @@ namespace FCA.Infrastructure.Migrations
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("varchar");
 
                     b.HasKey("Id");
 
@@ -49,6 +49,7 @@ namespace FCA.Infrastructure.Migrations
             modelBuilder.Entity("FCA.Domain.Entities.Veiculo", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Ano")
@@ -57,17 +58,19 @@ namespace FCA.Infrastructure.Migrations
                     b.Property<string>("Modelo")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("varchar");
 
                     b.Property<string>("Placa")
                         .IsRequired()
                         .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
+                        .HasColumnType("varchar");
 
                     b.Property<Guid>("ProprietarioId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProprietarioId");
 
                     b.ToTable("Veiculos");
                 });
@@ -76,7 +79,7 @@ namespace FCA.Infrastructure.Migrations
                 {
                     b.HasOne("FCA.Domain.Entities.Proprietario", "Proprietario")
                         .WithMany("Veiculos")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("ProprietarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -16,8 +16,8 @@ namespace FCA.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Nome = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CPF = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: false),
+                    Nome = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    CPF = table.Column<string>(type: "varchar(14)", maxLength: 14, nullable: false),
                     DataNascimento = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
@@ -30,8 +30,8 @@ namespace FCA.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Placa = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
-                    Modelo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Placa = table.Column<string>(type: "varchar(8)", maxLength: 8, nullable: false),
+                    Modelo = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     Ano = table.Column<int>(type: "int", nullable: false),
                     ProprietarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -39,12 +39,17 @@ namespace FCA.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Veiculos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Veiculos_Proprietarios_Id",
-                        column: x => x.Id,
+                        name: "FK_Veiculos_Proprietarios_ProprietarioId",
+                        column: x => x.ProprietarioId,
                         principalTable: "Proprietarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Veiculos_ProprietarioId",
+                table: "Veiculos",
+                column: "ProprietarioId");
         }
 
         /// <inheritdoc />

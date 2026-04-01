@@ -17,8 +17,8 @@ public class VeiculoDTO
     public string Modelo { get; set; }
     
     [Required(ErrorMessage = Constants.VEICULO_ANO_OBRIGATORIO)]
-    [MinLength(1980)]
-    public ushort Ano { get; set; }
+    [Range(1980, 2999, ErrorMessage = Constants.VEICULO_ANO_INVALIDO)]
+    public int Ano { get; set; }
     
     [Required(ErrorMessage = Constants.VEICULO_PROPRIETARIO_OBRIGATORIO)]
     public Guid ProprietarioId { get; set; }

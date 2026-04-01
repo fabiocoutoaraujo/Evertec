@@ -1,4 +1,5 @@
 ﻿using FCA.Domain.Validations;
+using System.Text.Json.Serialization;
 
 namespace FCA.Domain.Entities;
 
@@ -10,9 +11,12 @@ public sealed class Veiculo : Entity
 
     public required ushort Ano { get; init; }
 
+    #region | Relacionamento |
     public required Guid ProprietarioId { get; init; }
 
+    [JsonIgnore]
     public Proprietario? Proprietario { get; set; }
+    #endregion
 
     public Veiculo(string placa, string modelo, ushort ano, Guid proprietarioId)
     {
@@ -32,7 +36,7 @@ public sealed class Veiculo : Entity
         DomainExceptionValidation.When(placa.Length != 8,
                                        Constants.VEICULO_PLACA_TAMANHO_INVALIDO);
         
-        DomainExceptionValidation.When(DomainPlacaValidation.Validar(placa),
+        DomainExceptionValidation.When(DomainPlacaValidation.Validar(placa) == false,
                                        Constants.VEICULO_PLACA_INVALIDA);
 
         DomainExceptionValidation.When(string.IsNullOrWhiteSpace(modelo),

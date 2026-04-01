@@ -1,8 +1,9 @@
+using FCA.API.Filters;
 using FCA.CrossCutting.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => { options.Filters.Add(typeof(ApiExceptionFilter)); });
 
 builder.Services.AddInfrastructure(builder.Configuration);
 

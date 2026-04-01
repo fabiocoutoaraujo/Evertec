@@ -11,23 +11,23 @@ public class VeiculoService(IUnitOfWork _unitOfWork,
 {
     public async Task<IEnumerable<VeiculoDTO>> GetAllAsync()
     {
-        var veiculos = await _unitOfWork.ProprietarioRepository.GetAllAsync();
+        var veiculos = await _unitOfWork.VeiculoRepository.GetAllAsync();
 
         return _mapper.Map<IEnumerable<VeiculoDTO>>(veiculos);
     }
 
     public async Task<VeiculoDTO> GetByIdAsync(Guid id)
     {
-        var proprietario = await _unitOfWork.ProprietarioRepository.GetAsync(p => p.Id == id);
+        var proprietario = await _unitOfWork.VeiculoRepository.GetAsync(p => p.Id == id);
 
         return _mapper.Map<VeiculoDTO>(proprietario);
     }
 
     public async Task<VeiculoDTO> CreateAsync(VeiculoDTO veiculoDTO)
     {
-        var veiculo = _mapper.Map<Proprietario>(veiculoDTO);
+        var veiculo = _mapper.Map<Veiculo>(veiculoDTO);
 
-        var novoVeiculo = _unitOfWork.ProprietarioRepository.Create(veiculo);
+        var novoVeiculo = _unitOfWork.VeiculoRepository.Create(veiculo);
         await _unitOfWork.CommitAsync();
 
         return _mapper.Map<VeiculoDTO>(novoVeiculo);
@@ -35,9 +35,9 @@ public class VeiculoService(IUnitOfWork _unitOfWork,
 
     public async Task<VeiculoDTO> UpdateAsync(VeiculoDTO veiculoDTO)
     {
-        var veiculo = _mapper.Map<Proprietario>(veiculoDTO);
+        var veiculo = _mapper.Map<Veiculo>(veiculoDTO);
 
-        var veiculoAtualizado = _unitOfWork.ProprietarioRepository.Update(veiculo);
+        var veiculoAtualizado = _unitOfWork.VeiculoRepository.Update(veiculo);
         await _unitOfWork.CommitAsync();
 
         return _mapper.Map<VeiculoDTO>(veiculoAtualizado);
@@ -45,9 +45,9 @@ public class VeiculoService(IUnitOfWork _unitOfWork,
 
     public async Task<VeiculoDTO> DeleteAsync(VeiculoDTO veiculoDTO)
     {
-        var veiculo = _mapper.Map<Proprietario>(veiculoDTO);
+        var veiculo = _mapper.Map<Veiculo>(veiculoDTO);
 
-        var veiculoDeletado = _unitOfWork.ProprietarioRepository.Delete(veiculo);
+        var veiculoDeletado = _unitOfWork.VeiculoRepository.Delete(veiculo);
         await _unitOfWork.CommitAsync();
 
         return _mapper.Map<VeiculoDTO>(veiculoDeletado);

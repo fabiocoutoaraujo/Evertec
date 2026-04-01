@@ -8,8 +8,7 @@ public class ProprietarioDTO
     public Guid Id { get; set; }
 
     [Required(ErrorMessage = Constants.PROPRIETARIO_NOME_OBRIGATORIO)]
-    [MinLength(3)]
-    [MaxLength(100)]
+    [Length(3, 100)]
     public string Nome { get; set; }
 
     [Required(ErrorMessage = Constants.PROPRIETARIO_CPF_OBRIGATORIO)]

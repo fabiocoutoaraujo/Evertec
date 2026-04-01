@@ -13,8 +13,10 @@ public sealed class Proprietario : Entity
 
     public ICollection<Veiculo>? Veiculos { get; set; }
 
-    private Proprietario() => 
+    private Proprietario() 
+    {
         Veiculos = new Collection<Veiculo>();
+    }
 
     public Proprietario(string nome, string cpf, DateOnly dataNascimento)
     {

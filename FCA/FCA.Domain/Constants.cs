@@ -25,7 +25,7 @@ public static class Constants
     
     public const string VEICULO_PROPRIETARIO_OBRIGATORIO = "O identificador do proprietário do veículo é obrigatório!";
 
-    public const string VEICULO_ANO_INVALIDO = "O ano do veículo é inválido!";
+    public const string VEICULO_ANO_INVALIDO = "O ano do veículo deve ser maior que 1980!";
 
     public const string VEICULO_PLACA_TAMANHO_INVALIDO = "A placa do veículo deve conter entre 8 caracteres! Formato válido: ABC-1234";
 
