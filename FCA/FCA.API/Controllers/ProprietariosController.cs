@@ -7,6 +7,7 @@ namespace FCA.API.Controllers
     [Route("[controller]")]
     [ApiController]
     [Produces("application/json")]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class ProprietariosController(ILogger<ProprietariosController> _logger,
                                          IProprietarioService _proprietariosService) : ControllerBase
     {
