@@ -9,6 +9,10 @@ namespace FCA.API.Controllers
     public class ProprietariosController(ILogger<ProprietariosController> _logger,
                                          IProprietarioService _proprietariosService) : ControllerBase
     {
+        /// <summary>
+        /// Obtém uma lista de proprietários.
+        /// </summary>
+        /// <returns>Uma lista de objetos ProprietarioDTO.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProprietarioDTO>>> Get()
         {
@@ -25,6 +29,11 @@ namespace FCA.API.Controllers
             return Ok(proprietariosDTO);
         }
 
+        /// <summary>
+        /// Obtém um proprietário pelo seu identificador.
+        /// </summary>
+        /// <param name="id">Identificador único do proprietário (guid).</param>
+        /// <returns>Um objeto ProprietarioDTO.</returns>
         [HttpGet]
         [Route("{id:guid}", Name = "GetProprietarioById")]
         public async Task<ActionResult<ProprietarioDTO>> Get(Guid id)
@@ -42,6 +51,18 @@ namespace FCA.API.Controllers
             return Ok(proprietarioDTO);
         }
 
+        /// <summary>
+        /// Adiciona um novo prorietário.
+        /// </summary>
+        /// <remarks>
+        /// {
+        ///   "nome": "Fábio Couto Araújo",
+        ///   "cpf": "258.819.050-24",
+        ///   "dataNascimento": "1992-05-07"
+        /// }        
+        /// </remarks>
+        /// <param name="proprietarioDTO">Objeto ProprietarioDTO com os argumentos do novo proprietário.</param>
+        /// <returns>Um novo objeto ProprietarioDTO adicionado.</returns>
         [HttpPost]
         public async Task<ActionResult<ProprietarioDTO>> Post(ProprietarioDTO proprietarioDTO)
         {
@@ -53,11 +74,11 @@ namespace FCA.API.Controllers
                 return BadRequest(Constants.DADOS_INVALIDOS);
             }
 
-            var novoVeicutoDTO = await _proprietariosService.CreateAsync(proprietarioDTO);
+            var novoProprietarioDTO = await _proprietariosService.CreateAsync(proprietarioDTO);
 
             return new CreatedAtRouteResult(routeName: "GetProprietarioById",
-                                            routeValues: new { id = novoVeicutoDTO.Id },
-                                            value: novoVeicutoDTO);
+                                            routeValues: new { id = novoProprietarioDTO.Id },
+                                            value: novoProprietarioDTO);
         }
 
         [HttpPut]
@@ -72,9 +93,9 @@ namespace FCA.API.Controllers
                 return BadRequest(Constants.DADOS_INVALIDOS);
             }
 
-            var veicutoAtualizadoDTO = await _proprietariosService.UpdateAsync(proprietarioDTO);
+            var proprietarioAtualizadoDTO = await _proprietariosService.UpdateAsync(proprietarioDTO);
 
-            return Ok(veicutoAtualizadoDTO);
+            return Ok(proprietarioAtualizadoDTO);
         }
 
         [HttpDelete]
@@ -91,9 +112,9 @@ namespace FCA.API.Controllers
                 return NotFound(Constants.PROPRIETARIO_NAO_ENCONTRADO);
             }
 
-            var veicutoDeletadoDTO = await _proprietariosService.DeleteAsync(proprietarioDTO);
+            var proprietarioDeletadoDTO = await _proprietariosService.DeleteAsync(proprietarioDTO);
 
-            return Ok(veicutoDeletadoDTO);
+            return Ok(proprietarioDeletadoDTO);
         }
 
         void LogCustomWarning(string actionName, string message)

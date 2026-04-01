@@ -9,6 +9,10 @@ namespace FCA.API.Controllers;
 public class VeiculosController(ILogger<VeiculosController> _logger,
                                 IVeiculoService _veiculoService) : ControllerBase
 {
+    /// <summary>
+    /// Obtém uma lista de veículos.
+    /// </summary>
+    /// <returns>Uma lista de objetos VeiculoDTO.</returns>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<VeiculoDTO>>> Get()
     {
@@ -25,6 +29,11 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
         return Ok(veiculosDTO);
     }
 
+    /// <summary>
+    /// Obtém um veículo pelo seu identificador.
+    /// </summary>
+    /// <param name="id">Identificador único do veículo (guid).</param>
+    /// <returns>Um objeto VeiculoDTO.</returns>
     [HttpGet]
     [Route("{id:guid}", Name = "GetVeiculoById")]
     public async Task<ActionResult<VeiculoDTO>> Get(Guid id)
@@ -42,6 +51,19 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
         return Ok(veiculoDTO);
     }
 
+    /// <summary>
+    /// Adiciona um novo veículo.
+    /// </summary>
+    /// <remarks>
+    /// {
+    ///     "placa": "FGQ-4249",
+    ///     "modelo": "Fox 1.6",
+    ///     "ano": 2014,
+    ///     "proprietarioId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    /// }
+    /// </remarks>
+    /// <param name="veiculoDTO">Objeto VeiculoDTO com os argumentos do novo veículo.</param>
+    /// <returns>Um novo objeto VeiculoDTO adicionado.</returns>
     [HttpPost]
     public async Task<ActionResult<VeiculoDTO>> Post(VeiculoDTO veiculoDTO)
     {
