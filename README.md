@@ -2,13 +2,19 @@
 
 ## Como rodar o projeto.
 
-- Baixar o repositório, executar a solução e acessar os endpoints da API.
+- Clonar o repositório com o comando ``git clone https://github.com/fabiocoutoaraujo/Evertec``
+
+- Acessar o diretório ``cd Evertec\FCA``
+
+- Abrir e executar a solução no Visual Studion ``FCA.slnx`` e pressionar F5
+
+- A solução utiliza o EntityFrameworkCore.InMemory então não há necessidade de configurações adicionais
+
+- Os endpoints estão devidamente documentados e com exemplos de payload para execução. 
 
 ## Estrutura e decisões de arquitetura.
 
- 
-
-## Exemplos de chamadas da API.
+- Em breve...
 
 ## Pontos que poderiam ser melhorados em uma aplicação real.
 
