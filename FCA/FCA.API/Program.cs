@@ -26,7 +26,8 @@ builder.Services.AddSwaggerGen(opt =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() ||
+    app.Environment.IsProduction()) // habilitando o swagger em produção para testes no IIS local
 {
     app.UseSwagger();
     app.UseSwaggerUI();
