@@ -1,6 +1,7 @@
 ﻿using FCA.Application.DTOs;
 using FCA.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace FCA.API.Controllers
 {
@@ -17,9 +18,9 @@ namespace FCA.API.Controllers
         /// <returns>Uma lista de objetos ProprietarioDTO.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult<IEnumerable<ProprietarioDTO>>> Get()
+        public async Task<IActionResult> Get()
         {
             var proprietariosDTO = await _proprietariosService.GetAllAsync();
 
@@ -41,7 +42,10 @@ namespace FCA.API.Controllers
         /// <returns>Um objeto ProprietarioDTO.</returns>
         [HttpGet]
         [Route("{id:guid}", Name = "GetProprietarioById")]
-        public async Task<ActionResult<ProprietarioDTO>> Get(Guid id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Get(Guid id)
         {
             var proprietarioDTO = await _proprietariosService.GetByIdAsync(id);
 
@@ -69,7 +73,10 @@ namespace FCA.API.Controllers
         /// <param name="proprietarioDTO">Objeto ProprietarioDTO com os argumentos do novo proprietário.</param>
         /// <returns>Um novo objeto ProprietarioDTO adicionado.</returns>
         [HttpPost]
-        public async Task<ActionResult<ProprietarioDTO>> Post(ProprietarioDTO proprietarioDTO)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Post([FromBody] ProprietarioDTO proprietarioDTO)
         {
             if (proprietarioDTO == null)
             {
@@ -88,10 +95,11 @@ namespace FCA.API.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult<ProprietarioDTO>> Put(Guid id, ProprietarioDTO proprietarioDTO)
+        public async Task<IActionResult> Put(Guid id, [FromBody] ProprietarioDTO proprietarioDTO)
         {
             if (id != proprietarioDTO.Id)
             {
@@ -101,18 +109,30 @@ namespace FCA.API.Controllers
                 return BadRequest(Constants.DADOS_INVALIDOS);
             }
 
-            var proprietarioAtualizadoDTO = await _proprietariosService.UpdateAsync(proprietarioDTO);
+            var proprietarioExisteDTO = await _proprietariosService.GetByIdAsync(id);
+            if (proprietarioExisteDTO == null)
+            {
+                LogCustomWarning(actionName: "PUT/Proprietarios/{id}",
+                                    message: Constants.PROPRIETARIO_NAO_ENCONTRADO);
 
-            return Ok(proprietarioAtualizadoDTO);
+                return NotFound(Constants.PROPRIETARIO_NAO_ENCONTRADO);
+            }
+
+            await _proprietariosService.UpdateAsync(proprietarioExisteDTO);
+
+            return NoContent();
         }
 
         [HttpDelete]
         [Route("{id:guid}")]
-        public async Task<ActionResult<ProprietarioDTO>> Delete(Guid id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var proprietarioDTO = await _proprietariosService.GetByIdAsync(id);
+            var proprietarioExisteDTO = await _proprietariosService.GetByIdAsync(id);
 
-            if (proprietarioDTO == null)
+            if (proprietarioExisteDTO == null)
             {
                 LogCustomWarning(actionName: "DELETE/Proprietarios/{id}",
                                     message: $"{Constants.PROPRIETARIO_NAO_ENCONTRADO} | {id}");
@@ -120,9 +140,9 @@ namespace FCA.API.Controllers
                 return NotFound(Constants.PROPRIETARIO_NAO_ENCONTRADO);
             }
 
-            var proprietarioDeletadoDTO = await _proprietariosService.DeleteAsync(proprietarioDTO);
+            await _proprietariosService.DeleteAsync(proprietarioExisteDTO);
 
-            return Ok(proprietarioDeletadoDTO);
+            return NoContent();
         }
 
         void LogCustomWarning(string actionName, string message)
