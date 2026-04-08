@@ -1,12 +1,13 @@
-using FCA.API.Filters;
+using FCA.API.Middlewares;
 using FCA.CrossCutting.IoC;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(options => { options.Filters.Add(typeof(ApiExceptionFilter)); });
+builder.Services.AddControllers();
 
+// From FCA.CrossCutting
 builder.Services.AddInfrastructure();
 
 builder.Services.AddSwaggerGen(opt => 
@@ -25,6 +26,9 @@ builder.Services.AddSwaggerGen(opt =>
 });
 
 var app = builder.Build();
+
+// Middleware de exceções global
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 if (app.Environment.IsDevelopment() ||
     app.Environment.IsProduction()) // habilitando o swagger em produção para testes no IIS local
