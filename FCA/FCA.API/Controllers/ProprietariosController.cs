@@ -1,7 +1,6 @@
 ﻿using FCA.Application.DTOs;
 using FCA.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 
 namespace FCA.API.Controllers
 {
@@ -28,8 +27,7 @@ namespace FCA.API.Controllers
             {
                 LogCustomWarning(actionName: "GET/Proprietarios",
                                     message: Constants.PROPRIETARIO_NAO_ENCONTRADO);
-
-                return NotFound(Constants.PROPRIETARIO_NAO_ENCONTRADO);
+                return NotFound();
             }
 
             return Ok(proprietariosDTO);
@@ -41,7 +39,7 @@ namespace FCA.API.Controllers
         /// <param name="id">Identificador único do proprietário (guid).</param>
         /// <returns>Um objeto ProprietarioDTO.</returns>
         [HttpGet]
-        [Route("{id:guid}", Name = "GetProprietarioById")]
+        [Route("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
@@ -52,9 +50,8 @@ namespace FCA.API.Controllers
             if (proprietarioDTO == null)
             {
                 LogCustomWarning(actionName: "GET/Proprietarios/{id}",
-                                    message: Constants.PROPRIETARIO_NAO_ENCONTRADO);
-
-                return NotFound(Constants.PROPRIETARIO_NAO_ENCONTRADO);
+                                    message: $"{Constants.PROPRIETARIO_NAO_ENCONTRADO} | {id}");
+                return NotFound();
             }
 
             return Ok(proprietarioDTO);
@@ -81,16 +78,15 @@ namespace FCA.API.Controllers
             if (proprietarioDTO == null)
             {
                 LogCustomWarning(actionName: "POST/Proprietarios",
-                                    message: $"{Constants.DADOS_INVALIDOS}");
-
-                return BadRequest(Constants.DADOS_INVALIDOS);
+                                    message: Constants.DADOS_INVALIDOS);
+                return BadRequest();
             }
 
             var novoProprietarioDTO = await _proprietariosService.CreateAsync(proprietarioDTO);
 
-            return new CreatedAtRouteResult(routeName: "GetProprietarioById",
-                                            routeValues: new { id = novoProprietarioDTO.Id },
-                                            value: novoProprietarioDTO);
+            return CreatedAtAction(nameof(Get),
+                                   new { id = novoProprietarioDTO.Id },
+                                   novoProprietarioDTO);
         }
 
         [HttpPut]
@@ -105,20 +101,18 @@ namespace FCA.API.Controllers
             {
                 LogCustomWarning(actionName: "PUT/Proprietarios/{id}",
                                     message: $"{Constants.DADOS_INVALIDOS} | {id} | {proprietarioDTO.Id}");
-
-                return BadRequest(Constants.DADOS_INVALIDOS);
+                return BadRequest();
             }
 
-            var proprietarioExisteDTO = await _proprietariosService.GetByIdAsync(id);
-            if (proprietarioExisteDTO == null)
+            var existeProprietarioDTO = await _proprietariosService.GetByIdAsync(id);
+            if (existeProprietarioDTO == null)
             {
                 LogCustomWarning(actionName: "PUT/Proprietarios/{id}",
-                                    message: Constants.PROPRIETARIO_NAO_ENCONTRADO);
-
-                return NotFound(Constants.PROPRIETARIO_NAO_ENCONTRADO);
+                                    message: $"{Constants.PROPRIETARIO_NAO_ENCONTRADO} | {id}");
+                return NotFound();
             }
 
-            await _proprietariosService.UpdateAsync(proprietarioExisteDTO);
+            await _proprietariosService.UpdateAsync(proprietarioDTO);
 
             return NoContent();
         }
@@ -136,8 +130,7 @@ namespace FCA.API.Controllers
             {
                 LogCustomWarning(actionName: "DELETE/Proprietarios/{id}",
                                     message: $"{Constants.PROPRIETARIO_NAO_ENCONTRADO} | {id}");
-
-                return NotFound(Constants.PROPRIETARIO_NAO_ENCONTRADO);
+                return NotFound();
             }
 
             await _proprietariosService.DeleteAsync(proprietarioExisteDTO);

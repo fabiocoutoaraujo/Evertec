@@ -1,7 +1,6 @@
 ﻿using FCA.Application.DTOs;
 using FCA.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 
 namespace FCA.API.Controllers;
 
@@ -18,9 +17,9 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
     /// <returns>Uma lista de objetos VeiculoDTO.</returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
-    public async Task<ActionResult<IEnumerable<VeiculoDTO>>> Get()
+    public async Task<IActionResult> Get()
     {
         var veiculosDTO = await _veiculoService.GetAllAsync();
 
@@ -28,10 +27,8 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
         {
             LogCustomWarning(actionName: "GET/Veiculos",
                                 message: Constants.VEICULO_NAO_ENCONTRADO);
-
-            return NotFound(Constants.VEICULO_NAO_ENCONTRADO);
+            return NotFound();
         }
-
         return Ok(veiculosDTO);
     }
 
@@ -41,8 +38,11 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
     /// <param name="id">Identificador único do veículo (guid).</param>
     /// <returns>Um objeto VeiculoDTO.</returns>
     [HttpGet]
-    [Route("{id:guid}", Name = "GetVeiculoById")]
-    public async Task<ActionResult<VeiculoDTO>> Get(Guid id)
+    [Route("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> Get(Guid id)
     {
         var veiculoDTO = await _veiculoService.GetByIdAsync(id);
 
@@ -50,10 +50,8 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
         {
             LogCustomWarning(actionName: "GET/Veiculos/{id}",
                                 message: Constants.VEICULO_NAO_ENCONTRADO);
-
-            return NotFound(Constants.VEICULO_NAO_ENCONTRADO);
+            return NotFound();
         }
-
         return Ok(veiculoDTO);
     }
 
@@ -65,20 +63,18 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
     [HttpGet]
     [Route("Placa")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
-    public async Task<ActionResult<VeiculoDTO>> Get([FromQuery] VeiculoFiltroPlacaDTORequest veiculoFiltroPlacaDTORequest)
+    public async Task<IActionResult> Get([FromQuery] VeiculoFiltroPlacaDTORequest veiculoFiltroPlacaDTORequest)
     {
         var veiculoDTO = await _veiculoService.GetByPlacaAsync(veiculoFiltroPlacaDTORequest);
 
         if (veiculoDTO == null)
         {
-            LogCustomWarning(actionName: "GET/Veiculos/Placa",
-                                message: Constants.VEICULO_NAO_ENCONTRADO);
-
-            return NotFound(Constants.VEICULO_NAO_ENCONTRADO);
+            LogCustomWarning(actionName: "GET/Veiculos/Placa",                                
+                                message: $"{Constants.VEICULO_NAO_ENCONTRADO} | {veiculoFiltroPlacaDTORequest.Placa}");
+            return NotFound();
         }
-
         return Ok(veiculoDTO);
     }
 
@@ -90,20 +86,18 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
     [HttpGet]
     [Route("Modelo")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
-    public async Task<ActionResult<VeiculoDTO>> Get([FromQuery] VeiculoFiltroModeloDTORequest veiculoFiltroModeloDTORequest)
+    public async Task<IActionResult> Get([FromQuery] VeiculoFiltroModeloDTORequest veiculoFiltroModeloDTORequest)
     {
         var veiculoDTO = await _veiculoService.GetByModeloAsync(veiculoFiltroModeloDTORequest);
 
         if (veiculoDTO == null)
         {
             LogCustomWarning(actionName: "GET/Veiculos/Modelo",
-                                message: Constants.VEICULO_NAO_ENCONTRADO);
-
-            return NotFound(Constants.VEICULO_NAO_ENCONTRADO);
+                                message: $"{Constants.VEICULO_NAO_ENCONTRADO} | {veiculoFiltroModeloDTORequest.Modelo}");
+            return NotFound();
         }
-
         return Ok(veiculoDTO);
     }
 
@@ -115,20 +109,18 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
     [HttpGet]
     [Route("NomeProprietario")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
-    public async Task<ActionResult<IEnumerable<VeiculoDTO>>> Get([FromQuery] ProprietarioFiltroNomeDTORequest proprietarioFiltroNomeDTORequest)
+    public async Task<IActionResult> Get([FromQuery] ProprietarioFiltroNomeDTORequest proprietarioFiltroNomeDTORequest)
     {
         var veiculosDTO = await _veiculoService.GetByNomeProprietarioAsync(proprietarioFiltroNomeDTORequest);
 
         if (veiculosDTO == null || veiculosDTO.Any() == false)
         {
             LogCustomWarning(actionName: "GET/Veiculos/NomeProprietario",
-                                message: Constants.VEICULO_NAO_ENCONTRADO);
-
-            return NotFound(Constants.VEICULO_NAO_ENCONTRADO);
+                                message: $"{Constants.VEICULO_NAO_ENCONTRADO} | {proprietarioFiltroNomeDTORequest.Nome}");
+            return NotFound();
         }
-
         return Ok(veiculosDTO);
     }
 
@@ -146,46 +138,58 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
     /// <param name="veiculoDTO">Objeto VeiculoDTO com os argumentos do novo veículo.</param>
     /// <returns>Um novo objeto VeiculoDTO adicionado.</returns>
     [HttpPost]
-    public async Task<ActionResult<VeiculoDTO>> Post(VeiculoDTO veiculoDTO)
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> Post([FromBody] VeiculoDTO veiculoDTO)
     {
         if (veiculoDTO == null)
         {
             LogCustomWarning(actionName: "POST/Veiculos",
                                 message: $"{Constants.DADOS_INVALIDOS}");
-
-            return BadRequest(Constants.DADOS_INVALIDOS);
+            return BadRequest();
         }
 
         var novoVeicutoDTO = await _veiculoService.CreateAsync(veiculoDTO);
 
-        return new CreatedAtRouteResult(routeName: "GetVeiculoById",
-                                        routeValues: new { id = novoVeicutoDTO.Id },
-                                        value: novoVeicutoDTO);
+        return CreatedAtAction(nameof(Get),
+                               new { id = novoVeicutoDTO.Id },
+                               novoVeicutoDTO);
     }
 
     [HttpPut]
     [Route("{id:guid}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-    [ProducesDefaultResponseType]
-    public async Task<ActionResult<VeiculoDTO>> Put(Guid id, VeiculoDTO veiculoDTO)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesDefaultResponseType]    
+    public async Task<IActionResult> Put(Guid id, VeiculoDTO veiculoDTO)
     {
         if (id != veiculoDTO.Id)
         {
             LogCustomWarning(actionName: "PUT/Veiculos/{id}",
                                 message: $"{Constants.DADOS_INVALIDOS} | {id} | {veiculoDTO.Id}");
-
-            return BadRequest(Constants.DADOS_INVALIDOS);
+            return BadRequest();
         }
 
-        var veicutoAtualizadoDTO = await _veiculoService.UpdateAsync(veiculoDTO);
+        var existeVeiculoDTO = _veiculoService.GetByIdAsync(id);
+        if (existeVeiculoDTO == null)
+        {
+            LogCustomWarning(actionName: "PUT/Veiculos/{id}",
+                                message: $"{Constants.VEICULO_NAO_ENCONTRADO} | {id}");
+            return NotFound();
+        }
 
-        return Ok(veicutoAtualizadoDTO);
+        await _veiculoService.UpdateAsync(veiculoDTO);
+
+        return NoContent();
     }
 
     [HttpDelete]
     [Route("{id:guid}")]
-    public async Task<ActionResult<VeiculoDTO>> Delete(Guid id)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    public async Task<IActionResult> Delete(Guid id)
     {
         var veiculoDTO = await _veiculoService.GetByIdAsync(id);
 
@@ -193,13 +197,12 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
         {
             LogCustomWarning(actionName: "DELETE/Veiculos/{id}",
                                 message: $"{Constants.VEICULO_NAO_ENCONTRADO} | {id}");
-
-            return NotFound(Constants.VEICULO_NAO_ENCONTRADO);
+            return NotFound();
         }
 
-        var veicutoDeletadoDTO = await _veiculoService.DeleteAsync(veiculoDTO);
+        await _veiculoService.DeleteAsync(veiculoDTO);
 
-        return Ok(veicutoDeletadoDTO);
+        return NoContent();
     }
 
     void LogCustomWarning(string actionName, string message)
