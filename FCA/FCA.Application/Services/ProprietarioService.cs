@@ -3,6 +3,7 @@ using FCA.Application.DTOs;
 using FCA.Application.Interfaces;
 using FCA.Domain.Entities;
 using FCA.Domain.Interfaces;
+using FCA.Domain.Validations;
 
 namespace FCA.Application.Services;
 
@@ -45,6 +46,10 @@ public class ProprietarioService(IUnitOfWork _unitOfWork,
 
     public async Task<ProprietarioDTO> DeleteAsync(ProprietarioDTO proprietarioDTO)
     {
+        var veiculo = await _unitOfWork.VeiculoRepository.GetAsync(p => p.ProprietarioId == proprietarioDTO.Id);
+        if (veiculo != null) 
+            throw new ProprietarioPossuiVeiculoException();
+
         var proprietario = _mapper.Map<Proprietario>(proprietarioDTO);
 
         var proprietarioDeletado = _unitOfWork.ProprietarioRepository.Delete(proprietario);

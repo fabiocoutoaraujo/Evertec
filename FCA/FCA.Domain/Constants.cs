@@ -17,6 +17,8 @@ public static class Constants
 
     public const string PROPRIETARIO_CPF_INVALIDO = "O CPF do proprietário é inválido!";
 
+    public const string PROPRIETARIO_POSSUI_VEICULO = "O proprietário poussi um ou mais veículos!";
+
     public const string VEICULO_PLACA_OBRIGATORIO = "A placa do veículo é obrigatória!";
 
     public const string VEICULO_MODELO_OBRIGATORIO = "O modelo do veículo é obrigatório!";
