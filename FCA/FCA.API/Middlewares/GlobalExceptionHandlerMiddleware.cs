@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using FCA.Domain.Validations;
+using System.Net;
 using System.Text.Json;
 
 namespace FCA.API.Middlewares;
@@ -12,11 +13,11 @@ public class GlobalExceptionHandlerMiddleware(RequestDelegate _next,
 		{
 			await _next(httpContext);
 		}
-		//catch (ProprietarioNotFoundException ex)
-		//{
-		//	httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-		//	await httpContext.Response.WriteAsJsonAsync(new { error = ex.Message });
-		//}
+		catch (ProprietarioNotFoundException ex)
+		{
+			httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+			await httpContext.Response.WriteAsJsonAsync(new { error = ex.Message });
+		}
 		catch (Exception ex)
 		{
 			_logger.LogError(ex, "Ocorreu uma exceção não tratada: {Message}", ex.Message);

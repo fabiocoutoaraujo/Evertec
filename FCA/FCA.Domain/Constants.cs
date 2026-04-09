@@ -3,6 +3,8 @@ namespace FCA.Domain;
 
 public static class Constants
 {
+    public const string PROPRIETARIO_NAO_ENCONTRADO = "O proprietário informado não foi encontrado!";
+
     public const string PROPRIETARIO_NOME_OBRIGATORIO = "O nome do proprietário é obrigatório!";
     
     public const string PROPRIETARIO_CPF_OBRIGATORIO = "O CPF do proprietário é obrigatório!";

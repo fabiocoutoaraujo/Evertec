@@ -3,8 +3,7 @@ using FCA.Application.DTOs;
 using FCA.Application.Interfaces;
 using FCA.Domain.Entities;
 using FCA.Domain.Interfaces;
-using System.Numerics;
-using System.Reflection;
+using FCA.Domain.Validations;
 
 namespace FCA.Application.Services;
 
@@ -48,6 +47,9 @@ public class VeiculoService(IUnitOfWork _unitOfWork,
 
     public async Task<VeiculoDTO> CreateAsync(VeiculoDTO veiculoDTO)
     {
+        var proprietario = await _unitOfWork.ProprietarioRepository.GetAsync(p => p.Id == veiculoDTO.ProprietarioId) ?? 
+            throw new ProprietarioNotFoundException();        
+
         var veiculo = _mapper.Map<Veiculo>(veiculoDTO);
 
         var novoVeiculo = _unitOfWork.VeiculoRepository.Create(veiculo);
