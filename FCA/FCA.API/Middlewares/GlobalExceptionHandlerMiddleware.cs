@@ -13,7 +13,12 @@ public class GlobalExceptionHandlerMiddleware(RequestDelegate _next,
 		{
 			await _next(httpContext);
 		}
-		catch (ProprietarioNotFoundException ex)
+		catch (ProprietarioPossuiVeiculoException ex)
+        {
+            httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+            await httpContext.Response.WriteAsJsonAsync(new { error = ex.Message });
+        }
+        catch (ProprietarioNotFoundException ex)
 		{
 			httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
 			await httpContext.Response.WriteAsJsonAsync(new { error = ex.Message });
