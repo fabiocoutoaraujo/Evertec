@@ -36,7 +36,7 @@ public sealed class Veiculo : Entity
         DomainExceptionValidation.When(placa.Length != 8,
                                        Constants.VEICULO_PLACA_TAMANHO_INVALIDO);
         
-        DomainExceptionValidation.When(DomainPlacaValidation.Validar(placa) == false,
+        DomainExceptionValidation.When(!DomainPlacaValidation.Validar(placa),
                                        Constants.VEICULO_PLACA_INVALIDA);
 
         DomainExceptionValidation.When(string.IsNullOrWhiteSpace(modelo),

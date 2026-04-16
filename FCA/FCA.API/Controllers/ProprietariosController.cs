@@ -23,7 +23,7 @@ namespace FCA.API.Controllers
         {
             var proprietariosDTO = await _proprietariosService.GetAllAsync();
 
-            if (proprietariosDTO is null || proprietariosDTO.Any() is false)
+            if (proprietariosDTO is null || !proprietariosDTO.Any())
             {
                 LogCustomWarning(actionName: "GET/Proprietarios",
                                     message: Constants.PROPRIETARIO_NAO_ENCONTRADO);
