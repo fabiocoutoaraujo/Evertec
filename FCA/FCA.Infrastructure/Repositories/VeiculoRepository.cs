@@ -20,7 +20,7 @@ public class VeiculoRepository(ApplicationDbContext _dbContext) : Repository<Vei
                      orderby v.Modelo
                       select v;
         
-        return await queryable.AsNoTracking()
+        return await queryable.AsNoTracking() // remove o overhead do Change Tracker
                               .ToListAsync();
     }
 }

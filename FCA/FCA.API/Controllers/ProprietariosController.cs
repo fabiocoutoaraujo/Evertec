@@ -23,7 +23,7 @@ namespace FCA.API.Controllers
         {
             var proprietariosDTO = await _proprietariosService.GetAllAsync();
 
-            if (proprietariosDTO == null || proprietariosDTO.Any() == false)
+            if (proprietariosDTO is null || proprietariosDTO.Any() is false)
             {
                 LogCustomWarning(actionName: "GET/Proprietarios",
                                     message: Constants.PROPRIETARIO_NAO_ENCONTRADO);
@@ -47,7 +47,7 @@ namespace FCA.API.Controllers
         {
             var proprietarioDTO = await _proprietariosService.GetByIdAsync(id);
 
-            if (proprietarioDTO == null)
+            if (proprietarioDTO is null)
             {
                 LogCustomWarning(actionName: "GET/Proprietarios/{id}",
                                     message: $"{Constants.PROPRIETARIO_NAO_ENCONTRADO} | {id}");
@@ -75,7 +75,7 @@ namespace FCA.API.Controllers
         [ProducesDefaultResponseType]
         public async Task<ActionResult> Post([FromBody] ProprietarioDTO proprietarioDTO)
         {
-            if (proprietarioDTO == null)
+            if (proprietarioDTO is null)
             {
                 LogCustomWarning(actionName: "POST/Proprietarios",
                                     message: Constants.DADOS_INVALIDOS);
@@ -105,7 +105,7 @@ namespace FCA.API.Controllers
             }
 
             var existeProprietarioDTO = await _proprietariosService.GetByIdAsync(id);
-            if (existeProprietarioDTO == null)
+            if (existeProprietarioDTO is null)
             {
                 LogCustomWarning(actionName: "PUT/Proprietarios/{id}",
                                     message: $"{Constants.PROPRIETARIO_NAO_ENCONTRADO} | {id}");
@@ -126,7 +126,7 @@ namespace FCA.API.Controllers
         {
             var proprietarioExisteDTO = await _proprietariosService.GetByIdAsync(id);
 
-            if (proprietarioExisteDTO == null)
+            if (proprietarioExisteDTO is null)
             {
                 LogCustomWarning(actionName: "DELETE/Proprietarios/{id}",
                                     message: $"{Constants.PROPRIETARIO_NAO_ENCONTRADO} | {id}");

@@ -23,7 +23,7 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
     {
         var veiculosDTO = await _veiculoService.GetAllAsync();
 
-        if (veiculosDTO == null || veiculosDTO.Any() == false)
+        if (veiculosDTO is null || veiculosDTO.Any() is false)
         {
             LogCustomWarning(actionName: "GET/Veiculos",
                                 message: Constants.VEICULO_NAO_ENCONTRADO);
@@ -46,7 +46,7 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
     {
         var veiculoDTO = await _veiculoService.GetByIdAsync(id);
 
-        if (veiculoDTO == null)
+        if (veiculoDTO is null)
         {
             LogCustomWarning(actionName: "GET/Veiculos/{id}",
                                 message: Constants.VEICULO_NAO_ENCONTRADO);
@@ -69,7 +69,7 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
     {
         var veiculoDTO = await _veiculoService.GetByPlacaAsync(veiculoFiltroPlacaDTORequest);
 
-        if (veiculoDTO == null)
+        if (veiculoDTO is null)
         {
             LogCustomWarning(actionName: "GET/Veiculos/Placa",                                
                                 message: $"{Constants.VEICULO_NAO_ENCONTRADO} | {veiculoFiltroPlacaDTORequest.Placa}");
@@ -92,7 +92,7 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
     {
         var veiculoDTO = await _veiculoService.GetByModeloAsync(veiculoFiltroModeloDTORequest);
 
-        if (veiculoDTO == null)
+        if (veiculoDTO is null)
         {
             LogCustomWarning(actionName: "GET/Veiculos/Modelo",
                                 message: $"{Constants.VEICULO_NAO_ENCONTRADO} | {veiculoFiltroModeloDTORequest.Modelo}");
@@ -115,7 +115,7 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
     {
         var veiculosDTO = await _veiculoService.GetByNomeProprietarioAsync(proprietarioFiltroNomeDTORequest);
 
-        if (veiculosDTO == null || veiculosDTO.Any() == false)
+        if (veiculosDTO is null || veiculosDTO.Any() is false)
         {
             LogCustomWarning(actionName: "GET/Veiculos/NomeProprietario",
                                 message: $"{Constants.VEICULO_NAO_ENCONTRADO} | {proprietarioFiltroNomeDTORequest.Nome}");
@@ -143,7 +143,7 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
     [ProducesDefaultResponseType]
     public async Task<IActionResult> Post([FromBody] VeiculoDTO veiculoDTO)
     {
-        if (veiculoDTO == null)
+        if (veiculoDTO is null)
         {
             LogCustomWarning(actionName: "POST/Veiculos",
                                 message: $"{Constants.DADOS_INVALIDOS}");
@@ -172,7 +172,7 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
         }
 
         var existeVeiculoDTO = _veiculoService.GetByIdAsync(id);
-        if (existeVeiculoDTO == null)
+        if (existeVeiculoDTO is null)
         {
             LogCustomWarning(actionName: "PUT/Veiculos/{id}",
                                 message: $"{Constants.VEICULO_NAO_ENCONTRADO} | {id}");
@@ -193,7 +193,7 @@ public class VeiculosController(ILogger<VeiculosController> _logger,
     {
         var veiculoDTO = await _veiculoService.GetByIdAsync(id);
 
-        if (veiculoDTO == null)
+        if (veiculoDTO is null)
         {
             LogCustomWarning(actionName: "DELETE/Veiculos/{id}",
                                 message: $"{Constants.VEICULO_NAO_ENCONTRADO} | {id}");
